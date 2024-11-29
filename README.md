@@ -38,7 +38,7 @@ Copy the example `.env` file and update it:
 cp .env.example .env
 ```
 
-Pon aqui tus credenciales que tu hayas puesto en el archivo docker-compose:
+Put your credentials here that you have put in the file docker-compose:
 ```env
 DB_CONNECTION=mysql
 DB_HOST=db
