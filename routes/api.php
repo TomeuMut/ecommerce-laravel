@@ -25,6 +25,8 @@ Route::apiResource('products', ProductsController::class);
 
 Route::apiResource('categories', CategoriesController::class);
 
+Route::get('orders', [OrdersController::class, 'index']);
+
 Route::get('products/random', [ProductsController::class, 'random']);
 
 Route::post('orders', [OrdersController::class, 'store']);
