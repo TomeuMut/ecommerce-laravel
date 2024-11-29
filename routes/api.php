@@ -27,7 +27,7 @@ Route::apiResource('categories', CategoriesController::class);
 
 Route::get('orders', [OrdersController::class, 'index']);
 
-Route::get('products/random', [ProductsController::class, 'random']);
+Route::get('products-random', [ProductsController::class, 'random']);
 
 Route::post('orders', [OrdersController::class, 'store']);
 
@@ -37,4 +37,4 @@ Route::put('orders/{order}/cancel', [OrdersController::class, 'cancel']);
 
 Route::get('orders/{order}/status', [OrdersController::class, 'status']);
 
-Route::get('user/orders', [OrdersController::class, 'userOrders'])->middleware('auth');
+Route::get('user-orders', [OrdersController::class, 'userOrders'])->middleware('auth');

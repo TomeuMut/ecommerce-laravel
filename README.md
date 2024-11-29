@@ -1,64 +1,153 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Ecommerce Laravel
 
-## About Laravel
+A Laravel-based e-commerce application with a RESTful API, user authentication, and database integration.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prerequisites
+Before starting, ensure you have the following installed:
+- **PHP** >= 8.0
+- **Composer** (PHP dependency manager)
+- **Docker** and **Docker Compose** (for database and phpMyAdmin containers)
+- **Node.js** and **npm** (optional, for frontend assets)
+- **Laravel CLI** (optional, for running Laravel commands)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+### 1. Clone the repository
+```bash
+git clone https://github.com/TomeuMut/ecommerce-laravel.git
+cd ecommerce-laravel
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. Install PHP dependencies
+```bash
+composer install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. Optional: Install frontend dependencies
+```bash
+npm install
+npm run dev
+```
 
-## Laravel Sponsors
+### 4. Set up the environment file
+Copy the example `.env` file and update it:
+```bash
+cp .env.example .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Pon aqui tus credenciales que tu hayas puesto en el archivo docker-compose:
+```env
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=ecommerce_laravel
+DB_USERNAME=root
+DB_PASSWORD=root
+```
 
-### Premium Partners
+Generate the application key:
+```bash
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+---
 
-## Contributing
+## Docker Setup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Start the containers for MySQL and phpMyAdmin:
+```bash
+docker-compose up -d
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Database Setup
 
-## Security Vulnerabilities
+Run migrations and seed the database with initial data:
+```bash
+php artisan migrate --seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Running the Application
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Start the development server:
+```bash
+php artisan serve
+```
+
+- Access the app at: [http://localhost:8000](http://localhost:8000)
+- Access phpMyAdmin at: [http://localhost:8080](http://localhost:8080)  
+  - **User:** `root`  
+  - **Password:** `root`
+
+---
+
+## API Endpoints
+
+### Products
+- **GET** `/api/products`: List all products  
+- **GET** `/api/products/{id}`: View product details  
+- **POST** `/api/products`: Create a new product  
+- **PUT** `/api/products/{id}`: Update a product  
+- **DELETE** `/api/products/{id}`: Delete a product  
+- **GET** `/api/products-random`: View a random product  
+
+### Categories
+- **GET** `/api/categories`: List all categories  
+- **GET** `/api/categories/{id}`: View category details  
+- **POST** `/api/categories`: Create a new category  
+- **PUT** `/api/categories/{id}`: Update a category  
+- **DELETE** `/api/categories/{id}`: Delete a category  
+
+### Orders
+- **POST** `/api/orders`: Create an order  
+- **GET** `/api/orders/{id}`: View order details  
+- **PUT** `/api/orders/{id}/cancel`: Cancel an order  
+- **GET** `/api/orders/{id}/status`: Check order status  
+
+---
+
+## API Documentation
+The API is documented with Swagger. Access the Swagger UI at:  
+[http://localhost:8000/api/documentation](http://localhost:8000/api/documentation)
+
+---
+
+## Command for get products from external API.
+```bash
+php artisan command:get-apifake-products
+```
+---
+
+## Notes
+- **Authentication**: User authentication is implemented using Laravel Breeze.
+- **Seed Data**: Includes preloaded categories and products for testing.
+- **Testing Tools**: Use Postman to test the API.
+
+---
+
+## Troubleshooting
+
+### MySQL connection error
+- Ensure Docker containers are running (`docker-compose up -d`).
+- Verify `.env` database credentials match `docker-compose.yml`.
+
+### Command Errors
+- Maybe if your local console gives you an error, what you have to do is run with "docker exec -it ecommerce_app" in front so that it detects the docker container.
+
+- Example:
+```bash
+docker exec -it ecommerce_app php artisan migrate
+```
+### Missing database tables
+- Run `php artisan migrate` to apply migrations.
+
+### Cannot log in to phpMyAdmin
+- Use `root` as both the username and password.
+
+---
