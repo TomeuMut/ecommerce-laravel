@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\OrderItem;
 
 class OrdersController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -97,6 +103,13 @@ class OrdersController extends Controller
            $order = Order::create([
             'user_id' => $validated['user_id'],
             'total_amount' => 0,
+            'status' => 'pending',
+        ]);
+
+        $user = User::find(auth()->id());
+
+        $order = $user->orders()->create([
+            'total_amount' => 0, // Se calculará más adelante
             'status' => 'pending',
         ]);
 
@@ -253,5 +266,14 @@ class OrdersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function userOrders()
+    {
+        $user = User::find(auth()->id());
+
+        $orders = $user->orders()->with('items')->get();
+
+        return response()->json($orders);
     }
 }
