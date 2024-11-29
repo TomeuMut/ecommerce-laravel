@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Category;
+use App\Models\Product;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Category::factory(3)->create()->each(function ($category) {
+            // Crear 3 productos para cada categoría
+            Product::factory(3)->create([
+                'category_id' => $category->id, // Asignar el producto a la categoría
+            ]);
+        });
     }
 }
