@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\User;
@@ -35,9 +36,11 @@ class OrdersController extends Controller
     public function index()
     {
 
-        $order = Order::all();
+        $orders = Cache::remember('orders_list', 3600, function () {
+            return Order::with(['user', 'items.product'])->get();
+        });
 
-        return $order;
+        return response()->json($orders);
 
     }
 

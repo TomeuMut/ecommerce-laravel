@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Product;
 
 /**
@@ -39,7 +40,11 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        $products = Cache::remember('products_list', 3600, function () {
+            return Product::with('category')->get();
+        });
+
+        return response()->json($products);
     }
 
     /**
@@ -232,9 +237,12 @@ class ProductsController extends Controller
      */
     public function random()
     {
-        $product = Product::inRandomOrder()->first();
 
-        return $product;
+        $product = Cache::remember('random_product', 600, function () {
+            return Product::inRandomOrder()->first();
+        });
+
+        return response()->json($product);
 
     }
 }
